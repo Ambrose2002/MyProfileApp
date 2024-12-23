@@ -28,6 +28,8 @@ class ProfileVC: UIViewController {
     
     let editProfileButton = UIButton()
     
+    let navigationBackButton = UIBarButtonItem()
+    
     
     // MARK: - Properties (data)
     var name: String = "Ambrose"
@@ -52,6 +54,7 @@ class ProfileVC: UIViewController {
         setMajorIcon()
         setMajorLabel()
         setEditProfileButton()
+        setNavigationBackButton()
     }
     
     // MARK: - Set Up Views
@@ -210,7 +213,13 @@ class ProfileVC: UIViewController {
     
     @objc private func editProfileButtonTapped() {
         
-        let editProfileVC = EditProfileVC()
+        let editProfileVC = EditProfileVC(name: name, bio: bio, hometown: hometown, major: major)
         navigationController?.pushViewController(editProfileVC, animated: true)
+    }
+    
+    func setNavigationBackButton() {
+        navigationBackButton.title = "My Profile"
+        
+        navigationItem.backBarButtonItem = navigationBackButton
     }
 }
