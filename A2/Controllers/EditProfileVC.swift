@@ -16,6 +16,8 @@ class EditProfileVC: UIViewController {
     let hometownLabel = UILabel()
     let majorLabel = UILabel()
     let pageLabel = UILabel()
+    let hometownTextField = UITextField()
+    let majorTextField = UITextField()
     
     
     // MARK: - Properties (data)
@@ -45,8 +47,11 @@ class EditProfileVC: UIViewController {
         setProfileImageView()
         setNameLabel()
         setBioLabel()
-//        setHometownLabel()
-//        setMajorLabel()
+        setHometownLabel()
+        setHometownTextField()
+        setMajorLabel()
+        setMajorTextField()
+        
     }
     
     // MARK: - Set Up Views
@@ -84,7 +89,7 @@ class EditProfileVC: UIViewController {
         view.addSubview(nameLabel)
         
         nameLabel.text = name
-        nameLabel.font = UIFont.systemFont(ofSize: 24)
+        nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
         nameLabel.textColor = UIColor.a2.black
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -110,5 +115,74 @@ class EditProfileVC: UIViewController {
             bioLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 16)
         ])
     }
+    
+    func setHometownLabel() {
+        view.addSubview(hometownLabel)
+        hometownLabel.text = "Hometown"
+        hometownLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        hometownLabel.textColor = UIColor.a2.black
+        hometownLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            hometownLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 40),
+            hometownLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32)
+        ])
+    }
+    
+    func setHometownTextField() {
+        view.addSubview(hometownTextField)
+        hometownTextField.text = hometown
+        hometownTextField.layer.borderWidth = 1
+        hometownTextField.layer.borderColor = UIColor.a2.silver.cgColor
+        hometownTextField.layer.cornerRadius = 8
+        hometownTextField.layer.masksToBounds = true
+        hometownTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 40))
+        hometownTextField.leftView = paddingView
+        hometownTextField.leftViewMode = .always
+        
+        NSLayoutConstraint.activate([
+            hometownTextField.topAnchor.constraint(equalTo: hometownLabel.bottomAnchor, constant: 4),
+            hometownTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            hometownTextField.widthAnchor.constraint(equalToConstant: 329),
+            hometownTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    func setMajorLabel() {
+        view.addSubview(majorLabel)
+        majorLabel.text = "Major"
+        majorLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        majorLabel.textColor = UIColor.a2.black
+        majorLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            majorLabel.topAnchor.constraint(equalTo: hometownTextField.bottomAnchor, constant: 32),
+            majorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32)
+        ])
+    }
+    
+    func setMajorTextField() {
+        view.addSubview(majorTextField)
+        majorTextField.text = major
+        majorTextField.layer.borderWidth = 1
+        majorTextField.layer.borderColor = UIColor.a2.silver.cgColor
+        majorTextField.layer.cornerRadius = 8
+        majorTextField.layer.masksToBounds = true
+        majorTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 40))
+        majorTextField.leftView = paddingView
+        majorTextField.leftViewMode = .always
+        
+        NSLayoutConstraint.activate([
+            majorTextField.topAnchor.constraint(equalTo: majorLabel.bottomAnchor, constant: 4),
+            majorTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            majorTextField.widthAnchor.constraint(equalToConstant: 329),
+            majorTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+
     
 }
