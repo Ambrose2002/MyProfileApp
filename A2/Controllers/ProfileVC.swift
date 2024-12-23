@@ -204,5 +204,13 @@ class ProfileVC: UIViewController {
             editProfileButton.heightAnchor.constraint(equalToConstant: 56)
         ])
         
+        editProfileButton.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
+        
+    }
+    
+    @objc private func editProfileButtonTapped() {
+        
+        let editProfileVC = EditProfileVC()
+        navigationController?.pushViewController(editProfileVC, animated: true)
     }
 }

@@ -17,6 +17,7 @@ class EditProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.a2.white
     }
     
     // MARK: - Set Up Views
