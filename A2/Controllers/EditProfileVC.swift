@@ -18,6 +18,7 @@ class EditProfileVC: UIViewController {
     let pageLabel = UILabel()
     let hometownTextField = UITextField()
     let majorTextField = UITextField()
+    let saveButton = UIButton()
     
     
     // MARK: - Properties (data)
@@ -26,13 +27,15 @@ class EditProfileVC: UIViewController {
     private let bio: String
     private let hometown: String
     private let major: String
+    weak var delegate: EditProfileDelegate?
     // MARK: - viewDidLoad and init
     
-    init(name: String, bio: String, hometown: String, major: String) {
+    init(name: String, bio: String, hometown: String, major: String, delegate: EditProfileDelegate? = nil) {
         self.name = name
         self.bio = bio
         self.hometown = hometown
         self.major = major
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,6 +54,7 @@ class EditProfileVC: UIViewController {
         setHometownTextField()
         setMajorLabel()
         setMajorTextField()
+        setSaveButton()
         
     }
     
@@ -183,6 +187,45 @@ class EditProfileVC: UIViewController {
             majorTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
-
     
+    func setSaveButton() {
+        
+        view.addSubview(saveButton)
+        
+        saveButton.backgroundColor = UIColor.a2.ruby
+        saveButton.setTitle("Save", for: .normal)
+        saveButton.setTitleColor(UIColor.a2.white, for: .normal)
+        saveButton.layer.cornerRadius = 16
+        
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -64),
+            saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
+            saveButton.heightAnchor.constraint(equalToConstant: 56)
+        ])
+        
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        
+    }
+    
+    @objc private func saveButtonTapped() {
+        
+        let updatedMajor = majorTextField.text ?? ""
+        let updatedHometown = hometownTextField.text ?? ""
+        
+        delegate?.didUpdateProfile(major: updatedMajor, hometown: updatedHometown)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    private func setTextFields() {
+        majorTextField.text = major
+        hometownTextField.text = hometown
+    }
+    
+}
+
+protocol EditProfileDelegate: AnyObject {
+    func didUpdateProfile(major: String, hometown: String)
 }

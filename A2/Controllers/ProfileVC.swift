@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileVC: UIViewController {
+class ProfileVC: UIViewController, EditProfileDelegate {
     
     // MARK: - Properties (view)
     let pageLabel = UILabel()
@@ -36,7 +36,6 @@ class ProfileVC: UIViewController {
     var bio: String = "For the Lin Kuei!"
     var hometown: String = "Kumasi, Ghana"
     var major: String = "Computer Science"
-    
     
     // MARK: - viewDidLoad
     
@@ -214,6 +213,7 @@ class ProfileVC: UIViewController {
     @objc private func editProfileButtonTapped() {
         
         let editProfileVC = EditProfileVC(name: name, bio: bio, hometown: hometown, major: major)
+        editProfileVC.delegate = self
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
@@ -222,4 +222,13 @@ class ProfileVC: UIViewController {
         
         navigationItem.backBarButtonItem = navigationBackButton
     }
+    
+    func didUpdateProfile(major: String, hometown: String) {
+        self.hometown = hometown
+        self.major = major
+        
+        hometownLabel.text = hometown
+        majorLabel.text = major
+    }
+    
 }
