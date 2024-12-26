@@ -212,8 +212,8 @@ class EditProfileVC: UIViewController {
     
     @objc private func saveButtonTapped() {
         
-        let updatedMajor = majorTextField.text ?? ""
-        let updatedHometown = hometownTextField.text ?? ""
+        let updatedMajor = majorTextField.text == "" ? self.major : majorTextField.text!
+        let updatedHometown = hometownTextField.text == "" ? self.hometown : hometownTextField.text!
         
         delegate?.didUpdateProfile(major: updatedMajor, hometown: updatedHometown)
         navigationController?.popViewController(animated: true)
