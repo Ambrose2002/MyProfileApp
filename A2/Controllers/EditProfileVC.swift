@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import PhotosUI
 
-class EditProfileVC: UIViewController {
+class EditProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
     // MARK: - Properties (view)
     let profileImageView = UIImageView()
@@ -19,7 +20,7 @@ class EditProfileVC: UIViewController {
     let hometownTextField = UITextField()
     let majorTextField = UITextField()
     let saveButton = UIButton()
-    
+    let editProfilePictureButton = UIButton()
     
     // MARK: - Properties (data)
     
@@ -27,14 +28,16 @@ class EditProfileVC: UIViewController {
     private let bio: String
     private let hometown: String
     private let major: String
+    private let profileImage: UIImage
     weak var delegate: EditProfileDelegate?
     // MARK: - viewDidLoad and init
     
-    init(name: String, bio: String, hometown: String, major: String, delegate: EditProfileDelegate? = nil) {
+    init(name: String, bio: String, hometown: String, major: String, profileImage: UIImage, delegate: EditProfileDelegate? = nil) {
         self.name = name
         self.bio = bio
         self.hometown = hometown
         self.major = major
+        self.profileImage = profileImage
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,6 +58,7 @@ class EditProfileVC: UIViewController {
         setMajorLabel()
         setMajorTextField()
         setSaveButton()
+        setEditProfilePictureButton()
         
     }
     
@@ -75,7 +79,7 @@ class EditProfileVC: UIViewController {
     
     func setProfileImageView() {
         
-        profileImageView.image = UIImage(named: "ambroseImg")
+        profileImageView.image = self.profileImage
         view.addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.layer.cornerRadius = 48
@@ -210,12 +214,61 @@ class EditProfileVC: UIViewController {
         
     }
     
+    func setEditProfilePictureButton() {
+        view.addSubview(editProfilePictureButton)
+        let icon = UIImage(systemName: "pencil")
+        editProfilePictureButton.setImage(icon, for: .normal)
+        editProfilePictureButton.tintColor = UIColor.a2.white
+        editProfilePictureButton.backgroundColor = UIColor.a2.ruby
+        editProfilePictureButton.layer.cornerRadius = 14.5
+        editProfilePictureButton.clipsToBounds = true
+        editProfilePictureButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            editProfilePictureButton.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor, constant: 71),
+            editProfilePictureButton.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: -2),
+            editProfilePictureButton.widthAnchor.constraint(equalToConstant: 29),
+            editProfilePictureButton.heightAnchor.constraint(equalToConstant: 29)
+        ])
+        
+        editProfilePictureButton.addTarget(self, action: #selector(editProfilePictureButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func editProfilePictureButtonTapped() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        configuration.selectionLimit = 1
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self)
+        else {
+            return
+        }
+        
+        provider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+            guard let self = self else {return}
+            if let image = image as? UIImage {
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                }
+            }
+        }
+    }
+    
     @objc private func saveButtonTapped() {
         
         let updatedMajor = majorTextField.text == "" ? self.major : majorTextField.text!
         let updatedHometown = hometownTextField.text == "" ? self.hometown : hometownTextField.text!
+        let updatedProfileImage = profileImageView.image!
         
-        delegate?.didUpdateProfile(major: updatedMajor, hometown: updatedHometown)
+        delegate?.didUpdateProfile(major: updatedMajor, hometown: updatedHometown, profileImage: updatedProfileImage)
         navigationController?.popViewController(animated: true)
     }
     
@@ -227,5 +280,5 @@ class EditProfileVC: UIViewController {
 }
 
 protocol EditProfileDelegate: AnyObject {
-    func didUpdateProfile(major: String, hometown: String)
+    func didUpdateProfile(major: String, hometown: String, profileImage: UIImage)
 }

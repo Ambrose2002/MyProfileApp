@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class ProfileVC: UIViewController, EditProfileDelegate {
     
@@ -212,7 +213,7 @@ class ProfileVC: UIViewController, EditProfileDelegate {
     
     @objc private func editProfileButtonTapped() {
         
-        let editProfileVC = EditProfileVC(name: name, bio: bio, hometown: hometown, major: major)
+        let editProfileVC = EditProfileVC(name: name, bio: bio, hometown: hometown, major: major, profileImage: profileImageView.image!)
         editProfileVC.delegate = self
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
@@ -223,12 +224,13 @@ class ProfileVC: UIViewController, EditProfileDelegate {
         navigationItem.backBarButtonItem = navigationBackButton
     }
     
-    func didUpdateProfile(major: String, hometown: String) {
+    func didUpdateProfile(major: String, hometown: String, profileImage: UIImage) {
         self.hometown = hometown
         self.major = major
         
         hometownLabel.text = hometown
         majorLabel.text = major
+        profileImageView.image = profileImage
     }
     
 }
