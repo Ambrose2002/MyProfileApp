@@ -143,6 +143,7 @@ class EditProfileVC: UIViewController, PHPickerViewControllerDelegate {
         hometownTextField.layer.borderWidth = 1
         hometownTextField.layer.borderColor = UIColor.a2.silver.cgColor
         hometownTextField.layer.cornerRadius = 8
+        hometownTextField.textColor = UIColor.a2.black
         hometownTextField.layer.masksToBounds = true
         hometownTextField.translatesAutoresizingMaskIntoConstraints = false
         
@@ -176,6 +177,7 @@ class EditProfileVC: UIViewController, PHPickerViewControllerDelegate {
         majorTextField.text = major
         majorTextField.layer.borderWidth = 1
         majorTextField.layer.borderColor = UIColor.a2.silver.cgColor
+        majorTextField.textColor = UIColor.a2.black
         majorTextField.layer.cornerRadius = 8
         majorTextField.layer.masksToBounds = true
         majorTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -279,6 +281,4 @@ class EditProfileVC: UIViewController, PHPickerViewControllerDelegate {
     
 }
 
-protocol EditProfileDelegate: AnyObject {
-    func didUpdateProfile(major: String, hometown: String, profileImage: UIImage)
-}
+

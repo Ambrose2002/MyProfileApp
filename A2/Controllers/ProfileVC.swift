@@ -213,8 +213,8 @@ class ProfileVC: UIViewController, EditProfileDelegate {
     
     @objc private func editProfileButtonTapped() {
         
-        let editProfileVC = EditProfileVC(name: name, bio: bio, hometown: hometown, major: major, profileImage: profileImageView.image!)
-        editProfileVC.delegate = self
+        let editProfileVC = EditProfileVC(name: name, bio: bio, hometown: hometown, major: major, profileImage: profileImageView.image!, delegate: self)
+        
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
     
@@ -233,4 +233,8 @@ class ProfileVC: UIViewController, EditProfileDelegate {
         profileImageView.image = profileImage
     }
     
+}
+
+protocol EditProfileDelegate: AnyObject {
+    func didUpdateProfile(major: String, hometown: String, profileImage: UIImage)
 }
