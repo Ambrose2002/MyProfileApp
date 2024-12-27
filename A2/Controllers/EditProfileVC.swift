@@ -273,12 +273,6 @@ class EditProfileVC: UIViewController, PHPickerViewControllerDelegate {
         delegate?.didUpdateProfile(major: updatedMajor, hometown: updatedHometown, profileImage: updatedProfileImage)
         navigationController?.popViewController(animated: true)
     }
-    
-    private func setTextFields() {
-        majorTextField.text = major
-        hometownTextField.text = hometown
-    }
-    
 }
 
 
